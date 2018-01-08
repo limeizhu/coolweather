@@ -1,40 +1,50 @@
 package com.coolweather.android.db;
+        import org.litepal.crud.DataSupport;
 
 /**
- * Created by PC-2017 on 2017/12/31.
+ * Created by PC-2017 on 2018/1/7.
  */
 
 public class City extends DataSupport {
-    private  int id;
-    private String cityName;
-    private int cityCode;
-    private int provinceId;
-    public  int getId(){
+
+    private int id;//实体类的id
+
+    private String cityName;//城市名
+
+    private int cityCode;//城市的代号
+
+    private int provinceId;//当前市所属省的id值
+
+    //getter和setter方法
+    public int getId() {
         return id;
     }
-    public void setId(){
+
+    public void setId(int id) {
         this.id = id;
     }
-    public String getCityName(){
+
+    public String getCityName() {
         return cityName;
     }
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
-    public int getCityCode(){
+
+    public int getCityCode() {
         return cityCode;
     }
 
     public void setCityCode(int cityCode) {
         this.cityCode = cityCode;
     }
+
     public int getProvinceId() {
         return provinceId;
     }
-    public void setProvinceId(int provinceId){
-        this.provinceId=provinceId;
+
+    public void setProvinceId(int provinceId) {
+        this.provinceId = provinceId;
     }
-
-
 }
