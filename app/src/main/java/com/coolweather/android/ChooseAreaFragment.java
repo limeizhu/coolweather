@@ -16,6 +16,7 @@ import android.content.Intent;
 
 import com.coolweather.android.db.City;
         import com.coolweather.android.db.County;
+import com.coolweather.android.db.Province;
 import com.coolweather.android.util.HttpUtil;
         import com.coolweather.android.util.Utility;
 
@@ -83,14 +84,11 @@ public class ChooseAreaFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //获取控件实例
         View view = inflater.inflate(R.layout.choose_area, container, false);
         titleText = (TextView) view.findViewById(R.id.title_text);
         backButton = (Button) view.findViewById(R.id.back_button);
         listView = (ListView) view.findViewById(R.id.list_view);
-        //初始化ArrayAdapter
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dataList);
-        //将adapter设置为ListView的适配器
         listView.setAdapter(adapter);
         return view;
     }
@@ -98,10 +96,7 @@ public class ChooseAreaFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //ListView的点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            class WeatherActivity {
-            }
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,12 +106,7 @@ public class ChooseAreaFragment extends Fragment {
                 }else if(currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
                     queryCounties();
-                }else if (currentLevel==LEVEL_COUNTY){
-                    String weatherId = countyList.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+
                 }
             }
         });
@@ -223,14 +213,11 @@ public class ChooseAreaFragment extends Fragment {
                     result = Utility.handleCountyResponse(responseText,selectedCity.getId());
                 }
                 if(result){
-                    //由于query方法用到UI操作，必须要在主线程中调用。
-                    // 借助runOnUiThread()方法实现从子线程切换到主线程
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             closeProgressDialog();
                             if("province".equals(type)){
-                                //数据库已经存在数据，调用queryProvinces直接将数据显示到界面上
                                 queryProvinces();
                             }else if("city".equals(type)){
                                 queryCities();

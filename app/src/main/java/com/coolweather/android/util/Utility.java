@@ -4,6 +4,7 @@ package com.coolweather.android.util;
 
         import com.coolweather.android.db.City;
         import com.coolweather.android.db.County;
+        import com.coolweather.android.db.Province;
         import com.google.gson.Gson;
 
         import org.json.JSONArray;
@@ -15,24 +16,17 @@ package com.coolweather.android.util;
  */
 
 public class Utility {
-    /**
-     * 解析和处理服务器返回的省级数据
-     */
+
     public static boolean handleProvinceResponse(String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
-                //将服务器返回的数据传入到JSONArray对象allProvinces中
+
                 JSONArray allProvinces = new JSONArray(response);
-                //循环遍历JSONAray
                 for (int i = 0; i < allProvinces.length(); i++) {
-                    //从中取出的每一个元素都是一个JSONObject对象
                     JSONObject provinceObject = allProvinces.getJSONObject(i);
-                    //每个JSONObject对象包含name、code等信息，调用getString()方法将数据取出
-                    // 将数据组装成实体类对象
                     Province province = new Province();
                     province.setProvinceName(provinceObject.getString("name"));
                     province.setProvinceCode(provinceObject.getInt("id"));
-                    //调用save()方法将数据存储到数据库当中
                     province.save();
                 }
                 return true;
@@ -42,10 +36,6 @@ public class Utility {
         }
         return false;
     }
-
-    /**
-     * 解析和处理服务器返回的市级数据
-     */
     public static boolean handleCityResponse(String response, int provinceId) {
         if (!TextUtils.isEmpty(response)) {
             try {
@@ -88,6 +78,9 @@ public class Utility {
         }
         return false;
     }
+
+
+
 
 
     @Nullable
